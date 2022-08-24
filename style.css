@@ -16,7 +16,7 @@
  
 .eldritch {
   display: flex;
-  flex-direction: cover;
+  flex-direction: row;
   flex-wrap: wrap;
   max-width: 40%;
   margin: 20px 20px;
@@ -59,7 +59,7 @@
 .select {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 32px;
   color: #ffffff;
@@ -88,6 +88,17 @@
   background-color: #fd00d3;
 }
 
+.shuffleDeck {
+  align-content: center;
+  border: 1px solid #fd8080;
+  margin: 20px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.shuffle-deck:hover {
+  background-color: #fd8181;
+}
 /******************** Show selected game ********************/
 
 .card {
