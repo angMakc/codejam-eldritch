@@ -1,91 +1,14 @@
+import ancientsData from './ancients.js';
+import cardsDataBlue from './blue.js';
+import cardsDataBrown from './brown.js';
+import cardsDataGreen from './green.js';
+
+console.log(ancientsData, cardsDataBlue, cardsDataBrown, cardsDataGreen);
+
 // array.sort(() => Math.random() - 0.5);
 //const shuffle = (deck) => [...deck].sort(() => Math.random() - 0.5);
 const ancients = ['azathoth', 'cthulhu', 'iogSothoth', 'shubNiggurath'];
 const difficulties = ['easy', 'easy', 'normal', 'hard', 'hard'];
-
-const ancientsData = [
-  {
-    id: 'azathoth',
-    name: 'azathoth',
-//    cardFace: Ancients.azathoth,
-    firstStage: {
-      greenCards: 1,
-      blueCards: 1,
-      brownCards: 2,
-    },
-    secondStage: {
-      greenCards: 2,
-      blueCards: 1,
-      brownCards: 3,
-    },
-    thirdStage: {
-      greenCards: 2,
-      blueCards: 0,
-      brownCards: 4,
-    },
-  },
-  {
-    id: 'cthulhu',
-    name: 'cthulhu',
-//    cardFace: Ancients.cthulhu,
-    firstStage: {
-      greenCards: 0,
-      blueCards: 2,
-      brownCards: 2,
-    },
-    secondStage: {
-      greenCards: 1,
-      blueCards: 0,
-      brownCards: 3,
-    },
-    thirdStage: {
-      greenCards: 3,
-      blueCards: 0,
-      brownCards: 4,
-    },
-  },
-  {
-    id: 'iogSothoth',
-    name: 'iogSothoth',
-  //  cardFace: Ancients.iogSothoth,
-    firstStage: {
-      greenCards: 0,
-      blueCards: 1,
-      brownCards: 2,
-    },
-    secondStage: {
-      greenCards: 2,
-      blueCards: 1,
-      brownCards: 3,
-    },
-    thirdStage: {
-      greenCards: 3,
-      blueCards: 0,
-      brownCards: 4,
-    },
-  },
-  {
-    id: 'shubNiggurath',
-    name: 'shubNiggurath',
-//    cardFace: Ancients.shubNiggurath,
-    firstStage: {
-      greenCards: 1,
-      blueCards: 1,
-      brownCards: 2,
-    },
-    secondStage: {
-      greenCards: 3,
-      blueCards: 1,
-      brownCards: 2,
-    },
-    thirdStage: {
-      greenCards: 2,
-      blueCards: 0,
-      brownCards: 4,
-    },
-  },
-];
-
 
 let selectedEldritch;
 let markEldritch;
@@ -125,7 +48,6 @@ const showClickedEldritch = (ev) => {
   markEldritch.classList.toggle('eldritch-selected');
 
   abilitiesEldritch = ancientsData[ancients.lastIndexOf(selectedEldritch)];
-
 }
 
 const setDifficultyLevel = (e) => {

@@ -1,5 +1,3 @@
-import Ancients from '../assets/Ancients/index'
-
 const ancientsData = [
   {
     id: 'azathoth',
