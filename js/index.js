@@ -180,6 +180,7 @@ const setArrforVeryEasy = (arr, value) => {
 }
 
 
+
 const setDeckForVeryEasyLevel = () => {
   
   columnGreenCard = setArrforVeryEasy(cardsDataGreen, cardDeck.green);
@@ -249,6 +250,24 @@ const setDeckForHardLevel = () => {
 
 };
 
+const setArrforVeryHard = (arr, value) => {
+  let arr1 = []
+  let arr2 = [];
+  
+  arr1 = arrWithEssence(arr, 'hard');
+  arr2 = arrWithEssence(arr, 'normal');
+  
+  if (arr1.length < value) {arr2 = setArrayColumn(arr2, value-arr1.length)}
+
+  return [...arr1, ...arr2].sort(() => Math.random()-0.5);
+}
+
+const setDeckForVeryHardLevel = () => {
+  columnGreenCard = setArrforVeryHard(cardsDataGreen, cardDeck.green);
+  columnBrownCard = setArrforVeryHard(cardsDataBrown, cardDeck.brown);
+  columnBlueCard = setArrforVeryHard(cardsDataBlue, cardDeck.blue);
+};
+
 const setDeck = () => {
   fillCardDeck(abilitiesEldritch);
   switch(difficultLevel) {
@@ -260,9 +279,13 @@ const setDeck = () => {
     break;
     case 4: setDeckForHardLevel();
     break;
-    case 5:
+    case 5: setDeckForVeryHardLevel();
     break;               
   }
+  rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
+  rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
+  rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
+
   showStage(1);
   showStage(2);
   showStage(3);
