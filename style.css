@@ -1,0 +1,183 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 100vmin;
+  background: url(assets/home.jpg) no-repeat;
+  background-size: cover;
+}
+
+/******************** Eldritch cards ********************/
+ 
+.eldritch {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 35%;
+  margin: 20px 20px;
+  gap: 40px;
+}
+
+.eldritch-img {
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-size: contain;
+  min-width: 220px;
+  height: 287px;
+  cursor: pointer;
+}
+
+.eldritch-img:hover {
+  border: 2px solid #fd00d3;
+}
+
+.eldritch-selected {
+  border: 2px solid #00ff00;  
+}
+
+.azathoth {
+  background-image: url(assets/Ancients/Azathoth.jpg);
+}
+
+.cthulhu {
+  background-image: url(assets/Ancients/Cthulthu.jpg);
+}
+.iogSothoth {
+  background-image: url(assets/Ancients/IogSothoth.jpg);
+}
+.shubNiggurath {
+  background-image: url(assets/Ancients/ShubNiggurath.jpg);
+}
+
+/******************** Select difficult level ********************/
+
+.select {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 32px;
+  color: #ffffff;
+}
+
+.select-container {
+  margin: 20px;
+}
+
+.select-header {
+  border-bottom: 4px solid #fd00d3;
+  padding-bottom: 5px;
+  margin: 40px 0;
+}
+
+.select-level {
+ /* width: 300px;*/
+  align-content: center;
+  border: 1px solid #fd00d3;
+  margin: 20px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.select-level:hover {
+  background-color: #fd00d3;
+}
+
+.shuffle-deck {
+  align-content: center;
+  border: 1px solid #fd8080;
+  margin: 20px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.shuffle-deck:hover {
+  background-color: #fd8181;
+}
+/******************** Show selected game ********************/
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.difficult-label {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
+.first-diff,
+.second-diff,
+.third-diff {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.circle-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.stage-header {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  color: #ffffff;
+  margin: 5px 0 5px 0;
+}
+
+.circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 5px 5px;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+}
+
+.green {
+  background-color: #00FF00;
+}
+
+.brown {
+  background-color: #bd5d5d;
+}
+
+.blue {
+  background-color: #0000ff;
+}
+
+.one-step {
+  width: 142px;
+  height: 209px;
+  background-image: url(assets/mythicCardBackground.jpg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.one-step-click {
+  border: 5px solid #00FF00;
+}
+
+.now-card {
+  width: 142px;
+  height: 209px;
+  background-image: '';
+  background-repeat: no-repeat;
+  background-size: contain;
+}
