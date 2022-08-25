@@ -5,12 +5,10 @@ import cardsDataGreen from './green.js';
 
 //console.log(ancientsData, cardsDataBlue, cardsDataBrown, cardsDataGreen);
 
-// array.sort(() => Math.random() - 0.5);
-
 const ancients = ['azathoth', 'cthulhu', 'iogSothoth', 'shubNiggurath'];
 const difficulties = ['easy', 'easy', 'normal', 'hard', 'hard'];
 
-let selectedEldritch;  
+//let selectedEldritch;  
 let markEldritch;
 let abilitiesEldritch;
 let difficultLevel;
@@ -52,16 +50,17 @@ const fillCardDeck = (abilities) => {
                    abilities.secondStage.greenCards + 
                    abilities.thirdStage.greenCards;                   
 
- //console.log(cardDeck);
+ console.log('fillcardDeck', cardDeck);
 }
 
 const showClickedEldritch = (ev) => {
+  let selectedEldritch;
   selectedEldritch = ev.path[0].classList[0];
   markEldritch = document.querySelector(`.${selectedEldritch}`);
   markEldritch.classList.toggle('eldritch-selected');
 
   abilitiesEldritch = ancientsData[ancients.lastIndexOf(selectedEldritch)];
-  console.log('sCE', abilitiesEldritch, abilitiesEldritch.firstStage.blueCards);
+  console.log('sCE', abilitiesEldritch);
 }
 
 const setDifficultyLevel = (e) => {
@@ -85,19 +84,24 @@ const setArrayColumn = (arr, len) => {
   //const a = (arr.sort(() => Math.random() - 0.5)).slice(0, len);
   //const a = arr.slice(0, len);
   //console.log('sAC-2', a, a[0]);
-  //return (arr.sort(() => Math.random() - 0.5)).slice(0, len);
-  return (shuffle(arr)).slice(0, len);
+  return (arr.sort(() => Math.random() - 0.5)).slice(0, len);
+//  return shuffle(arr).slice(0, len);
 }
 
 const setArrayRow = (value) => {
   //console.log('sAR-1', columnGreenCard, value.greenCards);
+
   let green = columnGreenCard.sort(() => Math.random() - 0.5).splice(0, value.greenCards);
   let brown = columnBrownCard.sort(() => Math.random() - 0.5).splice(0, value.brownCards);
   let blue = columnBlueCard.sort(() => Math.random() - 0.5).splice(0, value.blueCards);
+
+//  let green = (shuffle(columnGreenCard)).splice(0, value.greenCards);
+//  let brown = shuffle(columnBrownCard).splice(0, value.brownCards);
+//  let blue = shuffle(columnBlueCard).splice(0, value.blueCards);
   //console.log('sAR-2', green);
   console.log('sAR-2', green, brown, blue);
-  //return [...green, ...brown, ...blue].sort(() => Math.random()-0.5);
-  return shuffle([...green, ...brown, ...blue]);
+  return [...green, ...brown, ...blue].sort(() => Math.random()-0.5);
+  //return shuffle([...green, ...brown, ...blue]);
   //console.log('setRow', abilitiesEldritch.firstStage);
 }
 
@@ -160,46 +164,94 @@ const showStage = (stage) => {
   };
 }
 
-const setDeckForNormalLevel = () => {
-// формируем колоду карт
-// сначала формируем колоды карт по цветам (вертикальные)
+const setDeckForVeryEasyLevel = () => {
+
   columnGreenCard = setArrayColumn(cardsDataGreen, cardDeck.green);
-  columnBrownCard = setArrayColumn(cardsDataBrown, cardDeck.brown);
-  columnBlueCard = setArrayColumn(cardsDataBlue, cardDeck.blue);
+  console.log('vEasy', columnGreenCard, cardDeck.green);
+//  columnBrownCard = setArrayColumn(cardsDataBrown, cardDeck.brown);
+//  columnBlueCard = setArrayColumn(cardsDataBlue, cardDeck.blue);
+
+//  rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
+//  rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
+//  rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
+};
+
+const arrWithoutEssence = (arr, essence) => {return arr.filter(x => x.difficulty !== essence)}
+
+const setDeckForEasyLevel = () => {
+  columnGreenCard = setArrayColumn(arrWithoutEssence(cardsDataGreen, 'hard'), cardDeck.green);
+  columnBrownCard = setArrayColumn(arrWithoutEssence(cardsDataBrown, 'hard'), cardDeck.brown);
+  columnBlueCard = setArrayColumn(arrWithoutEssence(cardsDataBlue, 'hard'), cardDeck.blue);
   
   //console.log('sDFNL',columnGreenCard);
 // теперь из цветных колод создаем колоды для уровней (горизонтальные)
   rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
   rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
   rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
+
+};
+
+const setDeckForNormalLevel = () => {
+// формируем колоду карт для нормальной сложности
+// сначала формируем колоды карт по цветам (вертикальные)
+console.log('***********************************************');
+console.log('Green', columnGreenCard);
+  columnGreenCard = setArrayColumn(cardsDataGreen, cardDeck.green);
+  console.log('Green', columnGreenCard);
+
+  columnBrownCard = setArrayColumn(cardsDataBrown, cardDeck.brown);
+  columnBlueCard = setArrayColumn(cardsDataBlue, cardDeck.blue);
+  
+  //console.log('sDFNL',columnGreenCard);
+// теперь из цветных колод создаем колоды для уровней (горизонтальные)
+  rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
+  console.log('Green', columnGreenCard);
+  rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
+  console.log('Green', columnGreenCard);
+  rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
+  console.log('Green', columnGreenCard);
    
 //  console.log('sDFN-c', columnGreenCard);
 //  console.log('sDFN-c', columnBrownCard);
 //  console.log('sDFN-c', columnBlueCard);
 //  console.log('sDFN-c', columnBlueCard);
-  //console.log('sDFN-r', rowStage1);
-  //console.log('sDFN-r', rowStage2);
-  //console.log('sDFN-r', rowStage3);
-
-  showStage(1);
-  showStage(2);
-  showStage(3);
+  console.log('rowStage-1', rowStage1);
+  console.log('rowStage-2', rowStage2);
+  console.log('rowStage-3', rowStage3);
+  console.log('---------------------------------------------');
+  
 }
+
+const setDeckForHardLevel = () => {
+  columnGreenCard = setArrayColumn(arrWithoutEssence(cardsDataGreen, 'easy'), cardDeck.green);
+  columnBrownCard = setArrayColumn(arrWithoutEssence(cardsDataBrown, 'easy'), cardDeck.brown);
+  columnBlueCard = setArrayColumn(arrWithoutEssence(cardsDataBlue, 'easy'), cardDeck.blue);
+  
+  //console.log('sDFNL',columnGreenCard);
+// теперь из цветных колод создаем колоды для уровней (горизонтальные)
+  rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
+  rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
+  rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
+
+};
 
 const setDeck = () => {
   fillCardDeck(abilitiesEldritch);
   switch(difficultLevel) {
-    case 1:
+    case 1: setDeckForVeryEasyLevel();
     break;
-    case 2:
+    case 2: setDeckForEasyLevel();
     break;  
     case 3: setDeckForNormalLevel();
     break;
-    case 4:
+    case 4: setDeckForHardLevel();
     break;
     case 5:
     break;               
   }
+  showStage(1);
+  showStage(2);
+  showStage(3);
 }
 
 const stepForward = () => {
@@ -213,13 +265,14 @@ const stepForward = () => {
   showStage(2);
   showStage(3);
   
-  console.log('sF', arr, arr[arr.length-1]);
+  //console.log('sF', arr, arr[arr.length-1]);
   const img = new Image();
-    img.src ='./assets/MythicCards/' + arr[arr.length-1].cardFace + '.jpg';
+    if (arr.length > 0) {
+      img.src ='./assets/MythicCards/' + arr[arr.length-1].cardFace + '.jpg';
       img.onload = () => {      
         nowCard.style.backgroundImage = 'url(' + img.src + ')';
       };  
-     
+    }
 }
 //console.log(eldritch);
 
@@ -230,4 +283,4 @@ oneStep.addEventListener('click', stepForward);
 //document.addEventListener('click', function(){ console.log(this, arguments); });
 
 
-console.log('Оценка - 85 баллов\n1. На выбор предоставляется четыре карты древнего - +20\n2. Реализован уровень СРЕДНИЙ - +5\n3. Карты замешиваются согласно правилам игры +40\n4. Есть трекер текущего состояния колоды +20')
+console.log('Оценка - 95 баллов\n1. На выбор предоставляется четыре карты древнего - +20\n2. Реализован уровень ЛЕГКИЙ, СРЕДНИЙ, ВЫСОКИЙ - +15\n3. Карты замешиваются согласно правилам игры +40\n4. Есть трекер текущего состояния колоды +20')
