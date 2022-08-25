@@ -164,19 +164,33 @@ const showStage = (stage) => {
   };
 }
 
-const setDeckForVeryEasyLevel = () => {
-
-  columnGreenCard = setArrayColumn(cardsDataGreen, cardDeck.green);
-  console.log('vEasy', columnGreenCard, cardDeck.green);
-//  columnBrownCard = setArrayColumn(cardsDataBrown, cardDeck.brown);
-//  columnBlueCard = setArrayColumn(cardsDataBlue, cardDeck.blue);
-
-//  rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
-//  rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
-//  rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
-};
-
+const arrWithEssence = (arr, essence) => {return arr.filter(x => x.difficulty === essence)}
 const arrWithoutEssence = (arr, essence) => {return arr.filter(x => x.difficulty !== essence)}
+
+const setArrforVeryEasy = (arr, value) => {
+  let arr1 = []
+  let arr2 = [];
+  
+  arr1 = arrWithEssence(arr, 'easy');
+  arr2 = arrWithEssence(arr, 'normal');
+  
+  if (arr1.length < value) {arr2 = setArrayColumn(arr2, value-arr1.length)}
+
+  return [...arr1, ...arr2].sort(() => Math.random()-0.5);
+}
+
+
+const setDeckForVeryEasyLevel = () => {
+  
+  columnGreenCard = setArrforVeryEasy(cardsDataGreen, cardDeck.green);
+  console.log('vEasy', columnGreenCard, cardDeck.green);
+  columnBrownCard = setArrforVeryEasy(cardsDataBrown, cardDeck.brown);
+  columnBlueCard = setArrforVeryEasy(cardsDataBlue, cardDeck.blue);
+
+  rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
+  rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
+  rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
+};
 
 const setDeckForEasyLevel = () => {
   columnGreenCard = setArrayColumn(arrWithoutEssence(cardsDataGreen, 'hard'), cardDeck.green);
