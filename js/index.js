@@ -3,13 +3,9 @@ import cardsDataBlue from './blue.js';
 import cardsDataBrown from './brown.js';
 import cardsDataGreen from './green.js';
 
-//console.log(ancientsData, cardsDataBlue, cardsDataBrown, cardsDataGreen);
-
 const ancients = ['azathoth', 'cthulhu', 'iogSothoth', 'shubNiggurath'];
 const difficulties = ['easy', 'easy', 'normal', 'hard', 'hard'];
 
-//let selectedEldritch;  
-let markEldritch;
 let abilitiesEldritch;
 let difficultLevel;
 
@@ -21,6 +17,11 @@ let rowStage1 = [];
 let rowStage2 = [];
 let rowStage3 = [];
 
+let cardDeck = {
+  green: 0,
+  brown: 0,
+  blue: 0,
+};
 
 const eldritch = document.querySelector('.eldritch');
 const selectContainer = document.querySelector('.select-container');
@@ -30,14 +31,7 @@ const difficultLabel = document.querySelector('.difficult-label');
 const oneStep = document.querySelector('.one-step');
 const nowCard = document.querySelector('.now-card');
 
-let cardDeck = {
-  green: 0,
-  brown: 0,
-  blue: 0,
-}
-
 const fillCardDeck = (abilities) => {
-//console.log('fill', abilities);
   cardDeck.blue = abilities.firstStage.blueCards + 
                   abilities.secondStage.blueCards + 
                   abilities.thirdStage.blueCards;
@@ -51,17 +45,19 @@ const fillCardDeck = (abilities) => {
                    abilities.thirdStage.greenCards;                   
 
  console.log('fillcardDeck', cardDeck);
-}
+};
 
 const showClickedEldritch = (ev) => {
   let selectedEldritch;
+  let markEldritch;
+
+  if (ev.target.tagName !== 'DIV') return false;
   selectedEldritch = ev.path[0].classList[0];
   markEldritch = document.querySelector(`.${selectedEldritch}`);
   markEldritch.classList.toggle('eldritch-selected');
 
   abilitiesEldritch = ancientsData[ancients.lastIndexOf(selectedEldritch)];
-  console.log('sCE', abilitiesEldritch);
-}
+};
 
 const setDifficultyLevel = (e) => {
   if (e.target.tagName !== 'P') return false;
@@ -72,38 +68,21 @@ const setDifficultyLevel = (e) => {
         if (i>0) {difficultLevel = i};
         el.clicked = undefined;
     });
-
-  //console.log(difficultLevel);
-}
+};
 
 const shuffle = (deck) => [...deck].sort(() => Math.random() - 0.5);
 
 const setArrayColumn = (arr, len) => {
-  //let a =[];
-  //console.log('sAC-1', arr, len);
-  //const a = (arr.sort(() => Math.random() - 0.5)).slice(0, len);
-  //const a = arr.slice(0, len);
-  //console.log('sAC-2', a, a[0]);
   return (arr.sort(() => Math.random() - 0.5)).slice(0, len);
-//  return shuffle(arr).slice(0, len);
-}
+};
 
 const setArrayRow = (value) => {
-  //console.log('sAR-1', columnGreenCard, value.greenCards);
-
   let green = columnGreenCard.sort(() => Math.random() - 0.5).splice(0, value.greenCards);
   let brown = columnBrownCard.sort(() => Math.random() - 0.5).splice(0, value.brownCards);
   let blue = columnBlueCard.sort(() => Math.random() - 0.5).splice(0, value.blueCards);
 
-//  let green = (shuffle(columnGreenCard)).splice(0, value.greenCards);
-//  let brown = shuffle(columnBrownCard).splice(0, value.brownCards);
-//  let blue = shuffle(columnBlueCard).splice(0, value.blueCards);
-  //console.log('sAR-2', green);
-  console.log('sAR-2', green, brown, blue);
   return [...green, ...brown, ...blue].sort(() => Math.random()-0.5);
-  //return shuffle([...green, ...brown, ...blue]);
-  //console.log('setRow', abilitiesEldritch.firstStage);
-}
+};
 
 const getNumberCircle = (id) => {
   switch (id.match(/\D/gi).join('')) {
@@ -114,7 +93,7 @@ const getNumberCircle = (id) => {
     case 'blue': return 2;
     break;
   }
-}
+};
 
 const getColorTotal = (arr) => {
   let color = [0, 0, 0];
@@ -130,21 +109,11 @@ const getColorTotal = (arr) => {
     }
   } 
   return color;
-}
+};
 
 const showStage = (stage) => {
   let rowStage = [];
   let color = [];
-  //console.log(difficultLabel.childNodes, difficultLabel.children);
-  //difficultLabel.children[2].children[1].children[1].innerHTML = '2';
-  //console.log('sS', difficultLabel.children[2].children[1].children[1].innerHTML);
-  //console.log('sS', difficultLabel.children[2].children[1].children); //- точка доступа к circle
-  //console.log('sS-1', difficultLabel.children[0].children[1]);
-  //console.log('sS-2', difficultLabel.children[1].children[1]);
-  //console.log('sS-3', difficultLabel.children[2].children[1]);
-  console.log('row-1', rowStage1);
-  console.log('row-2', rowStage2);
-  console.log('row-3', rowStage3);
   switch(stage) {
     case 1: rowStage = rowStage1;
     break;
@@ -152,114 +121,67 @@ const showStage = (stage) => {
     break;
     case 3: rowStage = rowStage3;
     break;
-  }
+  };
 
   color = getColorTotal(rowStage);
-  console.log('for-1', rowStage, rowStage.length);
-  console.log('for-1', color);
   for (let i = 0; i < color.length; i++) {
-    //color = difficultLabel.children[stage-1].children[1].children[getNumberCircle(rowStage[i].id)].innerHTML;
     difficultLabel.children[stage-1].children[1].children[i].innerHTML = color[i];
-    //console.log('for', i, rowStage[i].id, getNumberCircle(rowStage[i].id));
   };
-}
+};
 
 const arrWithEssence = (arr, essence) => {return arr.filter(x => x.difficulty === essence)}
 const arrWithoutEssence = (arr, essence) => {return arr.filter(x => x.difficulty !== essence)}
 
 const setArrforVeryEasy = (arr, value) => {
-  let arr1 = []
-  let arr2 = [];
+  let arrEasyCard = [];
+  let arrNormalCard = [];
+   
+  arrEasyCard = arrWithEssence(arr, 'easy');
+
+  if (arrEasyCard.length < value) {
+    arrNormalCard = arrWithEssence(arr, 'normal');
+    arrNormalCard = setArrayColumn(arrNormalCard, value-arrEasyCard.length);
+  }
   
-  arr1 = arrWithEssence(arr, 'easy');
-  arr2 = arrWithEssence(arr, 'normal');
-  
-  if (arr1.length < value) {arr2 = setArrayColumn(arr2, value-arr1.length)}
-
-  return [...arr1, ...arr2].sort(() => Math.random()-0.5);
-}
-
-
+  return [...arrEasyCard, ...arrNormalCard].sort(() => Math.random()-0.5);
+};
 
 const setDeckForVeryEasyLevel = () => {
-  
   columnGreenCard = setArrforVeryEasy(cardsDataGreen, cardDeck.green);
-  console.log('vEasy', columnGreenCard, cardDeck.green);
   columnBrownCard = setArrforVeryEasy(cardsDataBrown, cardDeck.brown);
   columnBlueCard = setArrforVeryEasy(cardsDataBlue, cardDeck.blue);
-
-  rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
-  rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
-  rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
 };
 
 const setDeckForEasyLevel = () => {
   columnGreenCard = setArrayColumn(arrWithoutEssence(cardsDataGreen, 'hard'), cardDeck.green);
   columnBrownCard = setArrayColumn(arrWithoutEssence(cardsDataBrown, 'hard'), cardDeck.brown);
   columnBlueCard = setArrayColumn(arrWithoutEssence(cardsDataBlue, 'hard'), cardDeck.blue);
-  
-  //console.log('sDFNL',columnGreenCard);
-// теперь из цветных колод создаем колоды для уровней (горизонтальные)
-  rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
-  rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
-  rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
-
 };
 
 const setDeckForNormalLevel = () => {
-// формируем колоду карт для нормальной сложности
-// сначала формируем колоды карт по цветам (вертикальные)
-console.log('***********************************************');
-console.log('Green', columnGreenCard);
   columnGreenCard = setArrayColumn(cardsDataGreen, cardDeck.green);
-  console.log('Green', columnGreenCard);
-
   columnBrownCard = setArrayColumn(cardsDataBrown, cardDeck.brown);
   columnBlueCard = setArrayColumn(cardsDataBlue, cardDeck.blue);
-  
-  //console.log('sDFNL',columnGreenCard);
-// теперь из цветных колод создаем колоды для уровней (горизонтальные)
-  rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
-  console.log('Green', columnGreenCard);
-  rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
-  console.log('Green', columnGreenCard);
-  rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
-  console.log('Green', columnGreenCard);
-   
-//  console.log('sDFN-c', columnGreenCard);
-//  console.log('sDFN-c', columnBrownCard);
-//  console.log('sDFN-c', columnBlueCard);
-//  console.log('sDFN-c', columnBlueCard);
-  console.log('rowStage-1', rowStage1);
-  console.log('rowStage-2', rowStage2);
-  console.log('rowStage-3', rowStage3);
-  console.log('---------------------------------------------');
-  
 }
 
 const setDeckForHardLevel = () => {
   columnGreenCard = setArrayColumn(arrWithoutEssence(cardsDataGreen, 'easy'), cardDeck.green);
   columnBrownCard = setArrayColumn(arrWithoutEssence(cardsDataBrown, 'easy'), cardDeck.brown);
   columnBlueCard = setArrayColumn(arrWithoutEssence(cardsDataBlue, 'easy'), cardDeck.blue);
-  
-  //console.log('sDFNL',columnGreenCard);
-// теперь из цветных колод создаем колоды для уровней (горизонтальные)
-  rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
-  rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
-  rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
-
 };
 
 const setArrforVeryHard = (arr, value) => {
-  let arr1 = []
-  let arr2 = [];
+  let arrHardCard = [];
+  let arrNormalCard = [];
   
-  arr1 = arrWithEssence(arr, 'hard');
-  arr2 = arrWithEssence(arr, 'normal');
+  arrHardCard = arrWithEssence(arr, 'hard');
   
-  if (arr1.length < value) {arr2 = setArrayColumn(arr2, value-arr1.length)}
+  if (arrHardCard.length < value) {
+    arrNormalCard = arrWithEssence(arr, 'normal');
+    arrNormalCard = setArrayColumn(arrNormalCard, value - arrHardCard.length)
+  }
 
-  return [...arr1, ...arr2].sort(() => Math.random()-0.5);
+  return [...arrHardCard, ...arrNormalCard].sort(() => Math.random() - 0.5);
 }
 
 const setDeckForVeryHardLevel = () => {
@@ -285,6 +207,10 @@ const setDeck = () => {
   rowStage1 = setArrayRow(abilitiesEldritch.firstStage);
   rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
   rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
+  
+  console.log('setDect-1', rowStage1);
+  console.log('setDect-2', rowStage2);
+  console.log('setDect-3', rowStage3);
 
   showStage(1);
   showStage(2);
@@ -294,15 +220,10 @@ const setDeck = () => {
 const stepForward = () => {
   const arr = [...rowStage3, ...rowStage2, ...rowStage1];
 
-  (rowStage1.length > 0) ? rowStage1.pop() : 
-  (rowStage2.length > 0) ? rowStage2.pop() :
-  (rowStage3.length > 0) ? rowStage3.pop() : '';
+  (rowStage1.length > 0) ? (rowStage1.pop(), showStage(1)) : 
+  (rowStage2.length > 0) ? (rowStage2.pop(), showStage(2)) :
+  (rowStage3.length > 0) ? (rowStage3.pop(), showStage(3)) : '';
   
-  showStage(1);
-  showStage(2);
-  showStage(3);
-  
-  //console.log('sF', arr, arr[arr.length-1]);
   const img = new Image();
     if (arr.length > 0) {
       img.src ='./assets/MythicCards/' + arr[arr.length-1].cardFace + '.jpg';
@@ -311,13 +232,10 @@ const stepForward = () => {
       };  
     }
 }
-//console.log(eldritch);
 
 eldritch.addEventListener('click', showClickedEldritch);
 selectContainer.addEventListener('click', setDifficultyLevel);
 shuffleDeck.addEventListener('click', setDeck);
 oneStep.addEventListener('click', stepForward);
-//document.addEventListener('click', function(){ console.log(this, arguments); });
 
-
-console.log('Оценка - 95 баллов\n1. На выбор предоставляется четыре карты древнего - +20\n2. Реализован уровень ЛЕГКИЙ, СРЕДНИЙ, ВЫСОКИЙ - +15\n3. Карты замешиваются согласно правилам игры +40\n4. Есть трекер текущего состояния колоды +20')
+console.log('Оценка - 105 баллов\n1. На выбор предоставляется четыре карты древнего - +20\n2. На выбор предоставляется 5 уровней сложности - +25\n3. Карты замешиваются согласно правилам игры +40\n4. Есть трекер текущего состояния колоды +20')

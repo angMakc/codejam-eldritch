@@ -8,7 +8,10 @@
   flex-direction: row;
   justify-content: space-evenly;
   height: 100vmin;
-  background: url(assets/home.jpg) no-repeat;
+  width: 100vw;
+  background-image: url(assets/home.jpg);
+  background-repeat: no-repeat;
+  background-position: 50%;
   background-size: cover;
 }
 
@@ -30,14 +33,18 @@
   min-width: 200px;
   height: 258px;
   cursor: pointer;
+  border-radius: 10%;
+  border: 4px solid #785c73;
+  transform: scale(1);
+  transition: all linear 0.25s;
 }
 
 .eldritch-img:hover {
-  border: 2px solid #fd00d3;
+  transform: scale(1.1);
 }
 
 .eldritch-selected {
-  border: 2px solid #00ff00;  
+  border: 3px solid #78ff73;  
 }
 
 .azathoth {
