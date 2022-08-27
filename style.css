@@ -82,11 +82,10 @@
   color: #ffffff;
 }
 
-.active {
-  display: flex;
-}
-
 .select-container {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
   margin: 15px;
 }
 
@@ -218,4 +217,8 @@
   background-repeat: no-repeat;
   background-size: contain;
   border-radius: 12px;
+}
+
+.active {
+  display: flex;
 }

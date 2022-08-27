@@ -26,12 +26,13 @@ let cardDeck = {
 const eldritch = document.querySelector('.eldritch');
 //const sectionEldritch = document.querySelector('.section-eldritch');//
 const select = document.querySelector('.select');
-const selectContainer = document.querySelector('.level-container');
+const selectContainer = document.querySelector('.select-container');
 const difficultMenu = [].slice.call(document.querySelectorAll('p'));
 const shuffleDeck = document.querySelector('.shuffle-deck');
 const difficultLabel = document.querySelector('.difficult-label');
 const oneStep = document.querySelector('.one-step');
 const nowCard = document.querySelector('.now-card');
+const card = document.querySelector('.card');
 
 console.log(eldritch.children);
 
@@ -83,13 +84,12 @@ const showClickedEldritch = (ev) => {
   let markEldritch;
 
   if (ev.target.tagName !== 'DIV') return false;
-  
   initDeck();
-  
   selectedEldritch = ev.path[0].classList[0];
   markEldritch = document.querySelector(`.${selectedEldritch}`);
   markEldritch.classList.add('eldritch-selected');
   select.classList.add('active');
+  selectContainer.classList.add('active');
   abilitiesEldritch = ancientsData[ancients.lastIndexOf(selectedEldritch)];
 
 };
@@ -119,7 +119,7 @@ const setDifficultyLevel = (ev) => {
 const setDifficultyLevel = (ev) => {
   if (ev.target.tagName !== 'P') return false;
     ev.target.clicked = true;
-    initDeck(); 
+    //initDeck(); 
     console.log(difficultMenu);
     difficultMenu.forEach(function(el, i) {
         if ( !el.clicked ) return false;
@@ -127,7 +127,8 @@ const setDifficultyLevel = (ev) => {
         el.clicked = undefined;
     });
     difficultMenu[difficultLevel].classList.add('select-level-active');
-    select.classList.remove('active');
+ //   select.classList.remove('active');
+    selectContainer.classList.remove('active');
     shuffleDeck.classList.add('active');
 
     console.log(difficultMenu, difficultLevel);
@@ -278,6 +279,10 @@ const setDeck = () => {
   showStage(1);
   showStage(2);
   showStage(3);
+
+  shuffleDeck.classList.remove('active');
+  selectContainer.classList.remove('active');
+  card.classList.add('active');
 }
 
 const stepForward = () => {
