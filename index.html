@@ -9,54 +9,65 @@
 </head>
 <body>
   <main class="main">
+    <p class="see">Смотри консоль</p>
     <section class="eldritch">
-      <div class="azathoth eldritch-img"></div>
-      <div class="cthulhu eldritch-img"></div>
-      <div class="iogSothoth eldritch-img"></div>
-      <div class="shubNiggurath eldritch-img"></div>  
+      <div class="azathoth eldritch-img">
+        <span class="now-level"></span>
+      </div>
+      <div class="cthulhu eldritch-img">
+        <span class="now-level"></span>
+      </div>
+      <div class="iogSothoth eldritch-img">
+        <span class="now-level"></span>
+      </div>
+      <div class="shubNiggurath eldritch-img">
+        <span class="now-level"></span>
+      </div>  
   </section>      
   <section class="select">
     <div class="select-container">
-      <p class="select-header">Выберите уровень сложности</p>
-      <p class="select-level">Очень легкий</p>
-      <p class="select-level">Легкий</p>
-      <p class="select-level">Средний</p>
-      <p class="select-level">Высокий</p>
-      <p class="select-level">Очень высокий</p>
+        <p class="select-header">Выберите уровень</p>
+        <p class="select-level">Очень легкий</p>
+        <p class="select-level">Легкий</p>
+        <p class="select-level">Средний</p>
+        <p class="select-level">Высокий</p>
+        <p class="select-level">Очень высокий</p>
     </div>
-    <div class="shuffle-deck">Замешать колоду</div>
-
-
   </section>  
   <section class="card">
-    <div class="difficult-label">
-      <div class="first-diff">
+    <div class="card-track">
+      <div class="one-step">
+        <p class='finish'>СТАРТ</p>
+      </div>
+      <div class="difficult-label">
+        <div class="first-diff">
         <span class="stage-header">Первая стадия</span>  
           <div class="circle-container">
             <div class="circle green"></div>
             <div class="circle brown"></div>
             <div class="circle blue"></div>
           </div>
-      </div>  
-      <div class="second-diff">
+        </div>  
+        <div class="second-diff">
         <span class="stage-header">Вторая стадия</span>  
           <div class="circle-container">
             <div class="circle green"></div>
             <div class="circle brown"></div>
             <div class="circle blue"></div>
           </div>
-      </div>    
-      <div class="third-diff">
+        </div>    
+        <div class="third-diff">
         <span class="stage-header">Третья стадия</span>  
           <div class="circle-container">
             <div class="circle green"></div>
             <div class="circle brown"></div>
             <div class="circle blue"></div>
           </div>
-      </div>
-    </div>  
-    <div class="one-step"></div>
+        </div>
+      </div>  
+    </div>
     <div class="now-card"></div>
+    <div class="select-level start">Начать заново</div>
   </section>
   </main>
 
