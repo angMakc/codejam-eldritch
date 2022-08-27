@@ -4,7 +4,6 @@ import cardsDataBrown from './brown.js';
 import cardsDataGreen from './green.js';
 
 const ancients = ['azathoth', 'cthulhu', 'iogSothoth', 'shubNiggurath'];
-const difficulties = ['easy', 'easy', 'normal', 'hard', 'hard'];
 
 let abilitiesEldritch;
 let difficultLevel;
@@ -23,34 +22,31 @@ let cardDeck = {
   blue: 0,
 };
 
-const eldritch = document.querySelector('.eldritch');
-//const sectionEldritch = document.querySelector('.section-eldritch');//
+let eldritch = document.querySelector('.eldritch');
+const nowLevel = document.querySelectorAll('.now-level');
 const select = document.querySelector('.select');
 const selectContainer = document.querySelector('.select-container');
 const difficultMenu = [].slice.call(document.querySelectorAll('p'));
-const shuffleDeck = document.querySelector('.shuffle-deck');
 const difficultLabel = document.querySelector('.difficult-label');
 const oneStep = document.querySelector('.one-step');
 const nowCard = document.querySelector('.now-card');
 const card = document.querySelector('.card');
-
-console.log(eldritch.children);
+const start = document.querySelector('.start');
 
 const clearEldritch = () => {
-  for (let i=0; i<4; i++) {
+  for (let i=0; i<ancients.length; i++) {
     eldritch.children[i].classList.add('eldritch-img-non');
     eldritch.children[i].classList.remove('eldritch-selected');
   };
 }
-
+/*
 const clearMenu = () => {
-  console.log(difficultMenu, difficultLevel);
   for (let i=0; i<difficultMenu.length; i++) {
     difficultMenu[i].classList.remove('select-level-active');
   }
 }
-
-const initDeck = () => {
+*/
+/*const initDeck = () => {
   columnBlueCard = [];
   columnBrownCard = [];
   columnGreenCard = [];
@@ -60,9 +56,9 @@ const initDeck = () => {
   rowStage3 = [];  
   
   clearEldritch();
-  clearMenu();
+  //clearMenu();
 }
-
+*/
 const fillCardDeck = (abilities) => {
   cardDeck.blue = abilities.firstStage.blueCards + 
                   abilities.secondStage.blueCards + 
@@ -75,8 +71,6 @@ const fillCardDeck = (abilities) => {
   cardDeck.green = abilities.firstStage.greenCards + 
                    abilities.secondStage.greenCards + 
                    abilities.thirdStage.greenCards;                   
-
- console.log('fillcardDeck', cardDeck);
 };
 
 const showClickedEldritch = (ev) => {
@@ -84,57 +78,30 @@ const showClickedEldritch = (ev) => {
   let markEldritch;
 
   if (ev.target.tagName !== 'DIV') return false;
-  initDeck();
   selectedEldritch = ev.path[0].classList[0];
+  clearEldritch();
   markEldritch = document.querySelector(`.${selectedEldritch}`);
   markEldritch.classList.add('eldritch-selected');
+
   select.classList.add('active');
   selectContainer.classList.add('active');
   abilitiesEldritch = ancientsData[ancients.lastIndexOf(selectedEldritch)];
-
 };
-/*
-const setDifficultyLevel = (ev) => {
-  let selectedEldritch;
-  let markEldritch;
-
-  if (ev.target.tagName !== 'P') return false;
-  
-  initDeck();
-
-  for (let i=0; i<5; i++) {
-    //levelContainer.children[i].classList.add('eldritch-img-non');
-    //levelContainer.children[i].classList.remove('eldritch-selected');
-  };
-  
-  difficultLevel = ev.path[0].classList[0];
-  console.log(difficultLevel, levelContainer, ev, ev.path[0]);
-  /*markEldritch = document.querySelector(`.${selectedEldritch}`);
-  markEldritch.classList.add('eldritch-selected');
-
-  abilitiesEldritch = ancientsData[ancients.lastIndexOf(selectedEldritch)];  
-  
-}*/
 
 const setDifficultyLevel = (ev) => {
   if (ev.target.tagName !== 'P') return false;
     ev.target.clicked = true;
-    //initDeck(); 
-    console.log(difficultMenu);
+   
     difficultMenu.forEach(function(el, i) {
         if ( !el.clicked ) return false;
         if (i>0) {difficultLevel = i;};
         el.clicked = undefined;
     });
-    difficultMenu[difficultLevel].classList.add('select-level-active');
- //   select.classList.remove('active');
     selectContainer.classList.remove('active');
-    shuffleDeck.classList.add('active');
-
-    console.log(difficultMenu, difficultLevel);
+    nowLevel.forEach(x => x.innerHTML = difficultMenu[difficultLevel].innerHTML);
+    setDeck();
+    eldritch = 0;    
 };
-
-const shuffle = (deck) => [...deck].sort(() => Math.random() - 0.5);
 
 const setArrayColumn = (arr, len) => {
   return (arr.sort(() => Math.random() - 0.5)).slice(0, len);
@@ -146,17 +113,6 @@ const setArrayRow = (value) => {
   let blue = columnBlueCard.sort(() => Math.random() - 0.5).splice(0, value.blueCards);
 
   return [...green, ...brown, ...blue].sort(() => Math.random()-0.5);
-};
-
-const getNumberCircle = (id) => {
-  switch (id.match(/\D/gi).join('')) {
-    case 'green': return 0;
-    break;
-    case 'brown': return 1;
-    break;
-    case 'blue': return 2;
-    break;
-  }
 };
 
 const getColorTotal = (arr) => {
@@ -239,7 +195,6 @@ const setArrforVeryHard = (arr, value) => {
   let arrNormalCard = [];
   
   arrHardCard = arrWithEssence(arr, 'hard');
-  
   if (arrHardCard.length < value) {
     arrNormalCard = arrWithEssence(arr, 'normal');
     arrNormalCard = setArrayColumn(arrNormalCard, value - arrHardCard.length)
@@ -256,7 +211,7 @@ const setDeckForVeryHardLevel = () => {
 
 const setDeck = () => {
   fillCardDeck(abilitiesEldritch);
-  switch(difficultLevel) {
+  switch(difficultLevel-1) {
     case 1: setDeckForVeryEasyLevel();
     break;
     case 2: setDeckForEasyLevel();
@@ -272,15 +227,14 @@ const setDeck = () => {
   rowStage2 = setArrayRow(abilitiesEldritch.secondStage);
   rowStage3 = setArrayRow(abilitiesEldritch.thirdStage);
   
-  console.log('setDect-1', rowStage1);
-  console.log('setDect-2', rowStage2);
-  console.log('setDect-3', rowStage3);
+  console.log('Стадия - 1', rowStage1);
+  console.log('Стадия - 2', rowStage2);
+  console.log('Стадия - 3', rowStage3);
 
   showStage(1);
   showStage(2);
   showStage(3);
 
-  shuffleDeck.classList.remove('active');
   selectContainer.classList.remove('active');
   card.classList.add('active');
 }
@@ -288,10 +242,22 @@ const setDeck = () => {
 const stepForward = () => {
   const arr = [...rowStage3, ...rowStage2, ...rowStage1];
 
-  (rowStage1.length > 0) ? (rowStage1.pop(), showStage(1)) : 
-  (rowStage2.length > 0) ? (rowStage2.pop(), showStage(2)) :
-  (rowStage3.length > 0) ? (rowStage3.pop(), showStage(3)) : oneStep.children[0].innerHTML='ФИНИШ';
-  
+  (rowStage1.length > 0) ? (
+      rowStage1.pop(), 
+      showStage(1),
+      card.children[0].children[1].children[0].style.opacity = 1) :
+  (rowStage2.length > 0) ? (
+      rowStage2.pop(), 
+      showStage(2), 
+      card.children[0].children[1].children[0].style.opacity = 0.2,
+      card.children[0].children[1].children[1].style.opacity = 1 ) :
+  (rowStage3.length > 0) ? (
+      rowStage3.pop(), 
+      showStage(3),
+      card.children[0].children[1].children[1].style.opacity = 0.2,
+      card.children[0].children[1].children[2].style.opacity = 1) : 
+      (oneStep.children[0].innerHTML='ФИНИШ', card.children[0].children[1].children[2].style.opacity = 0.2);
+
   const img = new Image();
     if (arr.length > 0) {
       img.src ='./assets/MythicCards/' + arr[arr.length-1].cardFace + '.jpg';
@@ -301,10 +267,13 @@ const stepForward = () => {
     }
 }
 
+const startGame = () => {
+  window.location.reload();
+}
+
 eldritch.addEventListener('click', showClickedEldritch);
 selectContainer.addEventListener('click', setDifficultyLevel);
-//levelContainer.addEventListener('click', setDifficultyLevel);
-shuffleDeck.addEventListener('click', setDeck);
 oneStep.addEventListener('click', stepForward);
+start.addEventListener('click', startGame);
 
-console.log('Оценка - 105 баллов\n1. На выбор предоставляется четыре карты древнего - +20\n2. На выбор предоставляется 5 уровней сложности - +25\n3. Карты замешиваются согласно правилам игры +40\n4. Есть трекер текущего состояния колоды +20')
+console.log('Оценка - 105 баллов\n1. На выбор предоставляется четыре карты древнего +20\n2. На выбор предоставляется 5 уровней сложности +25\n3. Карты замешиваются согласно правилам игры +40\n4. Есть трекер текущего состояния колоды +20');
