@@ -24,12 +24,43 @@ let cardDeck = {
 };
 
 const eldritch = document.querySelector('.eldritch');
-const selectContainer = document.querySelector('.select-container');
-const difficultMenu = [].slice.call( document.querySelectorAll('p') );
+//const sectionEldritch = document.querySelector('.section-eldritch');//
+const select = document.querySelector('.select');
+const selectContainer = document.querySelector('.level-container');
+const difficultMenu = [].slice.call(document.querySelectorAll('p'));
 const shuffleDeck = document.querySelector('.shuffle-deck');
 const difficultLabel = document.querySelector('.difficult-label');
 const oneStep = document.querySelector('.one-step');
 const nowCard = document.querySelector('.now-card');
+
+console.log(eldritch.children);
+
+const clearEldritch = () => {
+  for (let i=0; i<4; i++) {
+    eldritch.children[i].classList.add('eldritch-img-non');
+    eldritch.children[i].classList.remove('eldritch-selected');
+  };
+}
+
+const clearMenu = () => {
+  console.log(difficultMenu, difficultLevel);
+  for (let i=0; i<difficultMenu.length; i++) {
+    difficultMenu[i].classList.remove('select-level-active');
+  }
+}
+
+const initDeck = () => {
+  columnBlueCard = [];
+  columnBrownCard = [];
+  columnGreenCard = [];
+  
+  rowStage1 = [];
+  rowStage2 = [];
+  rowStage3 = [];  
+  
+  clearEldritch();
+  clearMenu();
+}
 
 const fillCardDeck = (abilities) => {
   cardDeck.blue = abilities.firstStage.blueCards + 
@@ -52,22 +83,54 @@ const showClickedEldritch = (ev) => {
   let markEldritch;
 
   if (ev.target.tagName !== 'DIV') return false;
+  
+  initDeck();
+  
   selectedEldritch = ev.path[0].classList[0];
   markEldritch = document.querySelector(`.${selectedEldritch}`);
-  markEldritch.classList.toggle('eldritch-selected');
-
+  markEldritch.classList.add('eldritch-selected');
+  select.classList.add('active');
   abilitiesEldritch = ancientsData[ancients.lastIndexOf(selectedEldritch)];
-};
 
-const setDifficultyLevel = (e) => {
-  if (e.target.tagName !== 'P') return false;
-    e.target.clicked = true;
- 
+};
+/*
+const setDifficultyLevel = (ev) => {
+  let selectedEldritch;
+  let markEldritch;
+
+  if (ev.target.tagName !== 'P') return false;
+  
+  initDeck();
+
+  for (let i=0; i<5; i++) {
+    //levelContainer.children[i].classList.add('eldritch-img-non');
+    //levelContainer.children[i].classList.remove('eldritch-selected');
+  };
+  
+  difficultLevel = ev.path[0].classList[0];
+  console.log(difficultLevel, levelContainer, ev, ev.path[0]);
+  /*markEldritch = document.querySelector(`.${selectedEldritch}`);
+  markEldritch.classList.add('eldritch-selected');
+
+  abilitiesEldritch = ancientsData[ancients.lastIndexOf(selectedEldritch)];  
+  
+}*/
+
+const setDifficultyLevel = (ev) => {
+  if (ev.target.tagName !== 'P') return false;
+    ev.target.clicked = true;
+    initDeck(); 
+    console.log(difficultMenu);
     difficultMenu.forEach(function(el, i) {
         if ( !el.clicked ) return false;
-        if (i>0) {difficultLevel = i};
+        if (i>0) {difficultLevel = i;};
         el.clicked = undefined;
     });
+    difficultMenu[difficultLevel].classList.add('select-level-active');
+    select.classList.remove('active');
+    shuffleDeck.classList.add('active');
+
+    console.log(difficultMenu, difficultLevel);
 };
 
 const shuffle = (deck) => [...deck].sort(() => Math.random() - 0.5);
@@ -222,7 +285,7 @@ const stepForward = () => {
 
   (rowStage1.length > 0) ? (rowStage1.pop(), showStage(1)) : 
   (rowStage2.length > 0) ? (rowStage2.pop(), showStage(2)) :
-  (rowStage3.length > 0) ? (rowStage3.pop(), showStage(3)) : '';
+  (rowStage3.length > 0) ? (rowStage3.pop(), showStage(3)) : oneStep.children[0].innerHTML='ФИНИШ';
   
   const img = new Image();
     if (arr.length > 0) {
@@ -235,6 +298,7 @@ const stepForward = () => {
 
 eldritch.addEventListener('click', showClickedEldritch);
 selectContainer.addEventListener('click', setDifficultyLevel);
+//levelContainer.addEventListener('click', setDifficultyLevel);
 shuffleDeck.addEventListener('click', setDeck);
 oneStep.addEventListener('click', stepForward);
 
